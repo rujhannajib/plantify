@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<head>
+    <title>Plantify</title>
+</head>
+    <body>
+        <h1>Plantify</h1>
+        <p>Upload your plant image</p>
+
+        <form method="POST" enctype="multipart/form-data">
+            <input type="file" name="image" required>
+            <button type="submit">Classify</button>
+        </form>
+
+        {% if display_image %}
+            <img src={{display_image}} >
+        {% endif %}
+    </body>
+</html>
