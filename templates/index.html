@@ -1,27 +1,35 @@
 <!DOCTYPE html>
 <head>
     <title>Plantify</title>
+    <link rel="stylesheet" href="static/css/style.css">
 </head>
     <body>
-        <h1>Plantify</h1>
-        <p>Upload your plant image</p>
+        <div class="flex-class">
+            <div>
+                <h1>Plantify</h1>
+                <p>Upload your plant image</p>
 
-        <form method="POST" enctype="multipart/form-data">
-            <input type="file" name="image" required>
-            <button type="submit">Classify</button>
-        </form>
+                <form method="POST" enctype="multipart/form-data">
+                    <input type="file" name="image" required>
+                    <button type="submit">Classify</button>
+                </form>
 
-        {% if display_image %}
-        <div>
-            <h2>Uploaded Image</h2>
-            <img src={{display_image}} width="480" height="480">
+                {% if display_image %}
+                <div>
+                    <h2>Uploaded Image</h2>
+                    <img src={{display_image}} width="480" height="480">
+                </div>
+                {% endif %}
+            </div>
+
+            
+            <div>
+            {% if prediction %}
+                <p>{{prediction[0]["name"]}}. Confidence: {{prediction[0]["score"]}}</p>
+                <p>{{prediction[1]["name"]}}. Confidence: {{prediction[1]["score"]}}</p>
+                <p>{{prediction[2]["name"]}}. Confidence: {{prediction[2]["score"]}}</p>
+                {% endif %}
+            </div>
         </div>
-        {% endif %}
-
-        {% if prediction %}
-        <div>
-            <p>This is a <span>{{prediction}}</span></p>
-        </div>
-        {% endif %}
     </body>
 </html>

@@ -19,6 +19,15 @@ with open(species_2_name, 'r') as file:
 def get_species_name(label:str):
     return species_2_name_dict[id_2_species_dict[str(label)]]
 
+def generate_predictions(image):
+    res = classifier(image)
+    predictions = []
+    for i in range(3):
+        species_name = get_species_name(res[i]["label"])
+        conf_score =  round(res[i]["score"],2)
+        predictions.append({"name":species_name, "score":conf_score})
+    return predictions
+
 # Load your Hugging Face model
 classifier = pipeline(
     "image-classification",
@@ -37,10 +46,10 @@ def index():
         display_image = image_path
 
         target_image = Image.open(display_image)
-        res = classifier(target_image)
+        # res = classifier(target_image)
 
-        prediction = get_species_name(res[0]["label"])
-        # print(prediction)
+        # prediction = (get_species_name(res[0]["label"]), round(res[0]["score"],2))
+        prediction = generate_predictions(target_image)
     return render_template("index.html", display_image=display_image, prediction=prediction)
 
 def main():
