@@ -12,7 +12,16 @@
         </form>
 
         {% if display_image %}
-            <img src={{display_image}} >
+        <div>
+            <h2>Uploaded Image</h2>
+            <img src={{display_image}} width="480" height="480">
+        </div>
+        {% endif %}
+
+        {% if prediction %}
+        <div>
+            <p>This is a <span>{{prediction}}</span></p>
+        </div>
         {% endif %}
     </body>
 </html>
