@@ -5,6 +5,7 @@ from PIL import Image
 import json
 
 app =  Flask(__name__)
+# save uploaded images
 app.config["UPLOAD_FOLDER"] = "static/uploads"
 
 id_2_species = "class_idx_to_species_id.json"
@@ -16,9 +17,11 @@ with open(id_2_species, 'r') as file:
 with open(species_2_name, 'r') as file:
     species_2_name_dict = json.load(file)
 
+# get species name from model prediction
 def get_species_name(label:str):
     return species_2_name_dict[id_2_species_dict[str(label)]]
 
+# get the top 3 predictions
 def generate_predictions(image):
     res = classifier(image)
     predictions = []
@@ -41,14 +44,12 @@ def index():
 
     if request.method == "POST":    
         files = request.files["image"]
+        # save the image and get the path
         image_path = os.path.join(app.config["UPLOAD_FOLDER"])
         files.save(image_path)
         display_image = image_path
 
-        target_image = Image.open(display_image)
-        # res = classifier(target_image)
-
-        # prediction = (get_species_name(res[0]["label"]), round(res[0]["score"],2))
+        target_image = Image.open(display_image) 
         prediction = generate_predictions(target_image)
     return render_template("index.html", display_image=display_image, prediction=prediction)
 
